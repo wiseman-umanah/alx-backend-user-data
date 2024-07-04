@@ -4,6 +4,8 @@ and Filtering"""
 import re
 import logging
 from typing import List
+import mysql.connector
+from os import getenv
 
 
 patterns = {
@@ -24,6 +26,21 @@ def filter_datum(
     """
     extract, replace = (patterns["extract"], patterns["replace"])
     return re.sub(extract(fields, separator), replace(redaction), message)
+
+
+def get_db() -> mysql.connector:
+    """Database connector with
+    mysql.connector"""
+    host = getenv("PERSONAL_DATA_DB_HOST")
+    username = getenv("PERSONAL_DATA_DB_USERNAME")
+    pwd = getenv("PERSONAL_DATA_DB_PASSWORD")
+    db = getenv("PERSONAL_DATA_DB_NAME")
+    return mysql.connector.connect(
+        host=host,
+        user=username,
+        password=pwd,
+        db=db
+    )
 
 
 class RedactingFormatter(logging.Formatter):
