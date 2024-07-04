@@ -14,8 +14,8 @@ patterns = {
 }
 
 PII_FIELDS = (
-    "name", "email", "phone", "ssn",
-    "password", "ip", "last_login", "user_agent"
+    "name", "email", "phone",
+    "ssn", "password"
     )
 
 
@@ -71,3 +71,26 @@ def get_logger() -> logging.Logger:
     logger.addHandler(handler)
     logger.propagate = False
     return logger
+
+
+def main() -> None:
+    """Main function that takes no
+    arguments and returns nothing.
+    """
+    fields = [
+        "name", "email", "phone",
+        "ssn", "password", "ip",
+        "last_login", "user_agent"]
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * from users;")
+    logger = get_logger()
+
+    for row in cursor:
+        log_message = "; ".join(f"{fields[i]}={row[i]}" for i in range(
+            len(fields)))
+        logger.info(log_message)
+
+
+if __name__ == "__main__":
+    main()
