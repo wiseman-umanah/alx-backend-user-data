@@ -16,6 +16,7 @@ PII_FIELDS = (
     "password", "ip", "last_login", "user_agent"
     )
 
+
 def filter_datum(
         fields: List[str], redaction: str, message: str, separator: str,
         ) -> str:
@@ -39,7 +40,8 @@ class RedactingFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord) -> str:
         """Formats data"""
-        record.msg = filter_datum(self.fields, self.REDACTION, record.msg, self.SEPARATOR)
+        record.msg = filter_datum(self.fields, self.REDACTION,
+                                  record.msg, self.SEPARATOR)
         return super().format(record)
 
 
