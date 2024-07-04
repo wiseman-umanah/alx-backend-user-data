@@ -28,7 +28,7 @@ def filter_datum(
     return re.sub(extract(fields, separator), replace(redaction), message)
 
 
-def get_db() -> mysql.connector:
+def get_db() -> mysql.connector.connection.MySQLConnection:
     """Database connector with
     mysql.connector"""
     host = getenv("PERSONAL_DATA_DB_HOST")
