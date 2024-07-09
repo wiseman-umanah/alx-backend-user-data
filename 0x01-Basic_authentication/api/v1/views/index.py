@@ -33,3 +33,12 @@ def unauth() -> str:
       - error
     """
     abort(401)
+
+
+@app_views.route('/forbidden/', strict_slashes=False)
+def forbidden() -> str:
+    """Testing Forbidden
+    Return:
+      - error
+    """
+    abort(403)
