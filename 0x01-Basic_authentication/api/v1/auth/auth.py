@@ -40,3 +40,4 @@ class Auth():
         Returns:
             TypeVar: returns None
         """
+        return None
