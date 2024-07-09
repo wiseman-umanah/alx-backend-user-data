@@ -2,8 +2,7 @@
 """Handle Basic Authentication
 for Users
 """
-from flask import Flask
-import requests
+from flask import request
 from typing import List, TypeVar
 
 
