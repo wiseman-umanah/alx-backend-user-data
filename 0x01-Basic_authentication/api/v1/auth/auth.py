@@ -4,7 +4,7 @@ for Users
 """
 from flask import Flask
 import requests
-from typing import List, TypeVar
+from typing import List, TypeVar, Optional
 
 
 class Auth():
@@ -20,7 +20,7 @@ class Auth():
         """
         return False
 
-    def authorization_header(self, request=None) -> str:
+    def authorization_header(self, request: Optional[str] = None) -> str:
         """authorize header
 
         Args:
@@ -31,7 +31,7 @@ class Auth():
         """
         return None
 
-    def current_user(self, request=None) -> TypeVar('User'):
+    def current_user(self, request: Optional[str] = None) -> TypeVar('User'):
         """returns current user
 
         Args:
