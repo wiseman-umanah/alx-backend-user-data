@@ -24,6 +24,10 @@ class Auth:
                 path += '/'
             excluded_paths = [x if x.endswith("/") else x + "/"
                               for x in excluded_paths]
+            if path in excluded_paths and path == "/api/v1/status/":
+                return False
+            if path in excluded_paths:
+                return False
         return True
 
     def authorization_header(self, request=None) -> str:
