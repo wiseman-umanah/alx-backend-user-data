@@ -19,6 +19,7 @@ if auth == "basic_auth":
 else:
     auth = Auth()
 
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
@@ -38,6 +39,7 @@ def forbidden_auth(error) -> str:
     """Forbids User
     """
     return jsonify({"error": "Forbidden"}), 403
+
 
 @app.before_request
 def auth_filter():
