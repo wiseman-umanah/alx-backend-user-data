@@ -42,6 +42,9 @@ def forbidden_auth(error) -> str:
 
 @app.before_request
 def auth_filter():
+    """Filter authentication
+    return error
+    """
     if auth:
         paths = [
             '/api/v1/status/',
