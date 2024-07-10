@@ -79,4 +79,4 @@ class BasicAuth(Auth):
         if dHead:
             if isinstance(dHead, str) and (":" in dHead):
                 return tuple(dHead.split(":"))
-        return None
+        return (None, None)
