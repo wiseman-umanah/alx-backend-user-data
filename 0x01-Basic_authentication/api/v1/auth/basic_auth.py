@@ -51,7 +51,7 @@ class BasicAuth(Auth):
                                      user_pwd: str) -> TypeVar('User'):
         """Validate users credentials
         """
-        if type(user_email) == str and type(user_pwd) == str:
+        if isinstance(user_email, str) and isinstance(user_pwd, str):
             try:
                 users = User.search({'email': user_email})
             except Exception:
@@ -70,3 +70,13 @@ class BasicAuth(Auth):
         auth_token = self.decode_base64_authorization_header(b64_auth_token)
         email, password = self.extract_user_credentials(auth_token)
         return self.user_object_from_credentials(email, password)
+
+    def extract_user_credentials(self, decoded_base64_authorization_header:
+                                 str) -> (str, str):
+        """extract user's credential
+        """
+        dHead = decoded_base64_authorization_header
+        if dHead:
+            if isinstance(dHead, str) and (":" in dHead):
+                return tuple(dHead.split(":"))
+        return None
