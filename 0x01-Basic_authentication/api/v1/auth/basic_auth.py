@@ -78,5 +78,6 @@ class BasicAuth(Auth):
         dHead = decoded_base64_authorization_header
         if dHead:
             if isinstance(dHead, str) and (":" in dHead):
-                return tuple(dHead.split(":"))
+                det = dHead.split(":")
+                return tuple((det[0], ":".join(det[1:])))
         return (None, None)
