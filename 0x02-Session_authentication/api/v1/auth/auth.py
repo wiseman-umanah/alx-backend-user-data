@@ -5,6 +5,7 @@ for Users
 from flask import request
 from fnmatch import fnmatch
 from typing import List, TypeVar
+from os import getenv
 
 
 class Auth:
@@ -51,4 +52,13 @@ class Auth:
         Returns:
             TypeVar: returns None
         """
+        return None
+
+    def session_cookie(self, request=None):
+        """Return a cookie value from a request
+        """
+        if request:
+            session_name = getenv("SESSION_NAME")
+            print()
+            return request.cookies.get(session_name)
         return None
