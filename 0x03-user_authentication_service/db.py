@@ -2,7 +2,6 @@
 """DB module
 """
 from sqlalchemy import create_engine, select
-from typing import Dict, Any
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
@@ -48,11 +47,15 @@ class DB:
         self._session.commit()
         return new_user
 
-    def find_user_by(self, **kwargs: Dict[str, Any]) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """Find user based on keywords
 
         Returns:
             User: The user found based on the criteria.
+        
+        Raises:
+            InvalidRequestError: If an invalid attribute is provided.
+            NoResultFound: If no user matches the criteria.
         """
         for i in kwargs:
             if not hasattr(User, i):
