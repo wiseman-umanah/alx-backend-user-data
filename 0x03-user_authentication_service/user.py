@@ -13,7 +13,7 @@ class User(Base):
     Args:
         Base (declarative_base): sqlalchemy declarative base for table
     """
-    __tablename__ = "user"
+    __tablename__ = "users"
     id = Column(Integer, primary_key=True)
     email = Column(VARCHAR(250), nullable=False)
     hashed_password = Column(VARCHAR(250), nullable=False)
