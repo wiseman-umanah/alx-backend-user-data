@@ -52,7 +52,7 @@ class DB:
 
         Returns:
             User: The user found based on the criteria.
-        
+
         Raises:
             InvalidRequestError: If an invalid attribute is provided.
             NoResultFound: If no user matches the criteria.
