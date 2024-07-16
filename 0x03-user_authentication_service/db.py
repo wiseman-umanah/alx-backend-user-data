@@ -55,9 +55,9 @@ class DB:
         """
         for i in kwargs:
             if not hasattr(User, i):
-                raise(InvalidRequestError)
+                raise (InvalidRequestError)
         query = select(User).filter_by(**kwargs)
         res = self._session.execute(query).scalars().first()
         if res is None:
-            raise(NoResultFound)
+            raise (NoResultFound)
         return res
