@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """DB module
 """
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, select
+from typing import Dict, Any
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.exc import InvalidRequestError, NoResultFound
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 
@@ -40,9 +42,22 @@ class DB:
         Returns:
             User: returns user object
         """
-        new_user = User()
-        new_user.email = email
-        new_user.hashed_password = hashed_password
+        new_user = User(email=email, hashed_password=hashed_password)
         self._session.add(new_user)
         self._session.commit()
         return new_user
+
+    def find_user_by(self, **kwargs: Dict[str, Any]) -> User:
+        """Find user based on keywords
+
+        Returns:
+            User: The user found based on the criteria.
+        """
+        for i in kwargs:
+            if not hasattr(User, i):
+                raise(InvalidRequestError)
+        query = select(User).filter_by(**kwargs)
+        res = self._session.execute(query).scalars().first()
+        if res is None:
+            raise(NoResultFound)
+        return res
