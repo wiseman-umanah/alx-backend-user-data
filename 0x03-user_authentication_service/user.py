@@ -2,7 +2,8 @@
 """A module with a User class defined
 """
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, VARCHAR
+from sqlalchemy import Column, Integer, String
+
 
 Base = declarative_base()
 
@@ -15,7 +16,7 @@ class User(Base):
     """
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    email = Column(VARCHAR(250), nullable=False)
-    hashed_password = Column(VARCHAR(250), nullable=False)
-    session_id = Column(VARCHAR(250), nullable=True)
-    reset_token = Column(VARCHAR(250), nullable=True)
+    email = Column(String(250), nullable=False)
+    hashed_password = Column(String(250), nullable=False)
+    session_id = Column(String(250), nullable=True)
+    reset_token = Column(String(250), nullable=True)
