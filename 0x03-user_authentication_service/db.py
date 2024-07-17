@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """DB module
 """
-from sqlalchemy import create_engine, select
+from sqlalchemy import create_engine, select, update
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
@@ -65,3 +65,21 @@ class DB:
         if res is None:
             raise (NoResultFound)
         return res
+
+    def update_user(self, user_id: str, **kwargs) -> None:
+        """updated user model
+
+        Args:
+            user_id (str): the user_id to update
+        """
+        for i in kwargs:
+            if not hasattr(User, i):
+                raise ValueError
+        try:
+            user = self.find_user_by(id=user_id)
+        except Exception:
+            raise ValueError
+        query = update(User).values(**kwargs).where(User.id == user.id)
+        self._session.execute(query)
+        self._session.commit()
+        return None
