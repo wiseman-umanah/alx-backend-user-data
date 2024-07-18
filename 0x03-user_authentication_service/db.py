@@ -57,14 +57,13 @@ class DB:
         """
         keys = User.__table__.columns.keys()
         if not kwargs:
-            raise (InvalidRequestError)
-        for i in kwargs:
+            raise InvalidRequestError
+        for i in kwargs.keys():
             if i not in keys:
-                raise (InvalidRequestError)
-        query = select(User).filter_by(**kwargs)
-        res = self._session.execute(query).scalars().first()
+                raise InvalidRequestError
+        res = self._session.query(User).filter_by(**kwargs).first()
         if res is None:
-            raise (NoResultFound)
+            raise NoResultFound
         return res
 
     def update_user(self, user_id: str, **kwargs) -> None:
