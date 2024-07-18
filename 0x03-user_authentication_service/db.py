@@ -57,8 +57,11 @@ class DB:
             InvalidRequestError: If an invalid attribute is provided.
             NoResultFound: If no user matches the criteria.
         """
+        keys = User.__table__.columns.keys()
+        if not kwargs:
+            raise (InvalidRequestError)
         for i in kwargs:
-            if not hasattr(User, i):
+            if i not in keys:
                 raise (InvalidRequestError)
         query = select(User).filter_by(**kwargs)
         res = self._session.execute(query).scalars().first()
