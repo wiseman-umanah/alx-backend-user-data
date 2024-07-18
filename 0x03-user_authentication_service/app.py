@@ -22,12 +22,15 @@ def start():
 def add_user():
     """Add users from details
     """
-    user_email = request.form.get("email")
-    user_pwd = request.form.get("password")
+    try:
+        user_email = request.form.get("email")
+        user_pwd = request.form.get("password")
+    except KeyError:
+        abort(400)
     try:
         AUTH.register_user(user_email, user_pwd)
-        return jsonify({"email": user_email, "message": "user created"}), 200
-    except Exception:
+        return jsonify({"email": user_email, "message": "user created"})
+    except ValueError:
         return jsonify({"message": "email already registered"}), 400
 
 
