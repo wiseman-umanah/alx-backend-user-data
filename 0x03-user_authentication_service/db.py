@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """DB module
 """
-from sqlalchemy import create_engine, select, update
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
@@ -72,14 +72,10 @@ class DB:
         Args:
             user_id (str): the user_id to update
         """
-        for i in kwargs:
-            if not hasattr(User, i):
+        user = self._session.query(User).where(User.id == user_id).one()
+        for key, value in kwargs.items():
+            if hasattr(user, key):
+                setattr(user, key, value)
+            else:
                 raise ValueError
-        try:
-            user = self.find_user_by(id=user_id)
-        except Exception:
-            raise ValueError
-        query = update(User).values(**kwargs).where(User.id == user.id)
-        self._session.execute(query)
         self._session.commit()
-        return None

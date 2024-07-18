@@ -4,7 +4,8 @@
 from flask import (
     Flask, jsonify,
     request, abort,
-    redirect, url_for)
+    redirect, url_for,
+    make_response)
 from auth import Auth
 
 
@@ -44,8 +45,10 @@ def login():
     user_email = request.form.get("email")
     user_pwd = request.form.get("password")
     if AUTH.valid_login(user_email, user_pwd):
-        AUTH.create_session(user_email)
-        return jsonify({"email": user_email, "message": "logged in"})
+        session = AUTH.create_session(user_email)
+        res = make_response(jsonify({"email": user_email, "message": "logged in"}))
+        res.set_cookie('session_id', session)
+        return res
     abort(401)
 
 

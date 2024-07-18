@@ -52,9 +52,8 @@ class Auth:
         """
         try:
             user = self._db.find_user_by(email=email)
-            if user:
-                return bcrypt.checkpw(password.encode(), user.hashed_password)
-        except Exception:
+            return bcrypt.checkpw(password.encode(), user.hashed_password)
+        except NoResultFound:
             return False
 
     def create_session(self, email: str) -> str:
@@ -62,11 +61,10 @@ class Auth:
         """
         try:
             user = self._db.find_user_by(email=email)
-            if user:
-                user_session = _generate_uuid()
-                self._db.update_user(user.id, session_id=user_session)
-                return user_session
-        except Exception:
+            user_session = _generate_uuid()
+            self._db.update_user(user.id, session_id=user_session)
+            return user.session_id
+        except (NoResultFound, ValueError):
             return None
 
     def get_user_from_session_id(self, session_id: str) -> Union[str, None]:
