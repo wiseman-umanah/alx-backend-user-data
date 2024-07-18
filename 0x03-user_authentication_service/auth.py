@@ -6,6 +6,7 @@ from db import DB
 from user import User
 from uuid import uuid4
 from typing import Union
+from sqlalchemy.orm.exc import NoResultFound
 
 
 def _hash_password(password: str) -> str:
@@ -40,9 +41,9 @@ class Auth:
         """register new user in db
         """
         try:
-            if self._db.find_user_by(email=email):
-                raise ValueError(f'User {email} already exists')
-        except Exception:
+            self._db.find_user_by(email=email)
+            raise ValueError(f'User {email} already exists')
+        except NoResultFound:
             h_pwd = _hash_password(password)
             return self._db.add_user(email=email, hashed_password=h_pwd)
 
