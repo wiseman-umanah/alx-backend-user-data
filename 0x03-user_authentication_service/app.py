@@ -19,19 +19,22 @@ def start():
 
 
 @app.route("/users", methods=['POST'], strict_slashes=False)
-def add_user():
-    """Add users from details
-    """
+def register_user() -> str:
+    """Registers a new user if it does not exist"""
+
     try:
-        user_email = request.form.get("email")
-        user_pwd = request.form.get("password")
+        email = request.form.get('email')
+        password = request.form.get('password')
     except KeyError:
         abort(400)
+
     try:
-        AUTH.register_user(user_email, user_pwd)
-        return jsonify({"email": user_email, "message": "user created"})
+        AUTH.register_user(email, password)
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
+
+    response = {"email": email, "message": "user created"}
+    return jsonify(response)
 
 
 @app.route("/sessions", methods=["POST"], strict_slashes=False)
