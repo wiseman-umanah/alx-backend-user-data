@@ -8,7 +8,7 @@ from uuid import uuid4
 from typing import Union
 
 
-def _hash_password(password: str) -> bcrypt.hashpw:
+def _hash_password(password: str) -> str:
     """password hashing with bcrypt
 
     Args:
