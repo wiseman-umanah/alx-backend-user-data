@@ -74,8 +74,13 @@ class DB:
         """
         try:
             user = self.find_user_by(id=user_id)
-        except Exception:
+            keys = User.__table__.columns.keys()
+            if not kwargs:
+                raise NoResultFound
+            for i in kwargs.keys():
+                if i not in keys:
+                    raise NoResultFound
+        except NoResultFound:
             raise ValueError
-        query = update(User).values(**kwargs).where(User.id == user.id)
-        self._session.execute(query)
+        self._session.query(User).filter(User.id == user.id).update(kwargs)
         self._session.commit()
